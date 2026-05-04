@@ -4,11 +4,11 @@ Update this file after every meaningful change. Keep entries short — this is a
 
 ## Current Phase
 
-v1.0 development — initial template build.
+v1.0.0 shipped. Awaiting first downstream test.
 
 ## Current Goal
 
-Ship `v1.0.0`: GitHub template repo with self-describing context files, Fabric-adapted blank templates under `templates/project/context/`, working `/init-fabric-project` skill, README, and CHANGELOG.
+Validate v1.0.0 by scaffolding a real project from it (CVC retrofit, UPA retrofit, or a fresh test project). Surface gaps, file as `[Unreleased]` items in CHANGELOG, plan v1.1.0 patches.
 
 ## Completed
 
@@ -16,7 +16,13 @@ Ship `v1.0.0`: GitHub template repo with self-describing context files, Fabric-a
 - 2026-05-04 — GitHub repo created at `Nitsuuu/fabric-project-context-template` (public, MIT).
 - 2026-05-04 — Repo cloned to `/Users/blanc/Documents/10 Code/05 fabric-project-context-template/`.
 - 2026-05-04 — Root `CLAUDE.md` entry point written.
-- 2026-05-04 — Six self-describing context files written: project-overview, architecture, code-standards, ai-workflow-rules, data-conventions, progress-tracker (this file). Template now describes itself using its own methodology.
+- 2026-05-04 — Six self-describing context files written: project-overview, architecture, code-standards, ai-workflow-rules, data-conventions, progress-tracker (this file).
+- 2026-05-04 — Six Fabric-adapted blank templates written under `templates/project/context/`.
+- 2026-05-04 — `templates/CLAUDE.md`, `.gitignore`, `REQ-template.md`, layer/queue scaffolds, `.github/workflows/{workspace-sync,promote-to-prod}.yml` written.
+- 2026-05-04 — `/init-fabric-project` skill written: SKILL.md (9-step procedure), `references/planning-questions.md`, `references/placeholders.md`.
+- 2026-05-04 — README replaced with proper template documentation.
+- 2026-05-04 — CHANGELOG.md initialized with v1.0.0 entry.
+- 2026-05-04 — v1.0.0 tag created and pushed. GitHub release published.
 
 ## In Progress
 
@@ -24,15 +30,9 @@ Ship `v1.0.0`: GitHub template repo with self-describing context files, Fabric-a
 
 ## Next Up
 
-1. **Write Fabric-adapted blank templates** under `templates/project/context/` — six markdown files with placeholders that the skill fills in.
-2. **Scaffold `templates/CLAUDE.md`** — entry-point template for scaffolded projects (with placeholders).
-3. **Scaffold `templates/workspace-assets/` skeleton** — empty layer folders, lakehouse `.platform` skeletons.
-4. **Scaffold `templates/project/requests/` queue** — empty `queue/working/done/blocked/` folders plus REQ-template.md (five-section structure).
-5. **Scaffold `templates/.github/workflows/`** — starter Fabric CI/CD workflows (sync, test promotion, prod promotion, scheduled sync).
-6. **Build `/init-fabric-project` skill** under `skill/init-fabric-project/`. SKILL.md + helper scripts + references.
-7. **Replace auto-generated `README.md`** with proper template README (how to use, what gets scaffolded, version compatibility).
-8. **Initialize `CHANGELOG.md`** in Keep a Changelog format.
-9. **Tag `v1.0.0`** and create GitHub release.
+1. **First downstream test**: scaffold a real project from v1.0.0. Decide which (CVC retrofit vs UPA retrofit vs fresh test project).
+2. **Capture feedback** as `[Unreleased]` entries in CHANGELOG.md as the first scaffold reveals gaps.
+3. **Tag v1.0.1 / v1.1.0** once enough feedback accumulates to warrant a release.
 
 ## Open Questions
 
