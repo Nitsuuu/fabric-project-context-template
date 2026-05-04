@@ -1,0 +1,56 @@
+# macOS
+.DS_Store
+._*
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment files (NEVER commit secrets)
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+.secrets/
+
+# Verification script outputs
+project/scripts/*_results/
+project/scripts/output/
+project/scripts/*.csv
+project/scripts/*.parquet
+project/scripts/*.log
+
+# Fabric / OneLake local cache
+.fabric/
+.onelake/
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+
+# OS
+Thumbs.db
+desktop.ini
+
+# Local Claude Code overrides (project-local; not for sharing)
+.claude/settings.local.json
+
+# CLAUDE.local.md is intentionally not gitignored — but if you keep
+# personal notes in it, decide whether to commit before pushing.

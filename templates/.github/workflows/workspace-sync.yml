@@ -1,0 +1,71 @@
+# Sync main branch into the Fabric Test workspace.
+#
+# Trigger: every push to main.
+# What it does: updates the Fabric workspace's git-integrated branch so the
+# Test workspace picks up the latest notebooks, pipelines, and lakehouse
+# definitions.
+#
+# Required GitHub Actions secrets (configure in repo settings):
+#   FABRIC_TENANT_ID         Azure AD tenant
+#   FABRIC_CLIENT_ID         Service principal client ID
+#   FABRIC_CLIENT_SECRET     Service principal client secret
+#   FABRIC_TEST_WORKSPACE_ID Workspace ID for Test environment
+#
+# Required Variable Library entries (in the Test workspace):
+#   See project/context/architecture.md for the full list.
+
+name: Sync main to Fabric Test workspace
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'workspace-assets/**'
+
+permissions:
+  contents: read
+
+jobs:
+  sync-test:
+    name: Sync to Fabric Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install fabric-cli
+        run: |
+          python -m pip install --upgrade pip
+          # TODO: pin fabric-cli to a known-good version once selected.
+          pip install ms-fabric-cli
+
+      - name: Authenticate
+        env:
+          FABRIC_TENANT_ID: ${{ secrets.FABRIC_TENANT_ID }}
+          FABRIC_CLIENT_ID: ${{ secrets.FABRIC_CLIENT_ID }}
+          FABRIC_CLIENT_SECRET: ${{ secrets.FABRIC_CLIENT_SECRET }}
+        run: |
+          # TODO: replace with the chosen fabric-cli auth pattern.
+          # Examples:
+          #   fab auth login --tenant "$FABRIC_TENANT_ID" \
+          #                  --service-principal \
+          #                  --client-id "$FABRIC_CLIENT_ID" \
+          #                  --client-secret "$FABRIC_CLIENT_SECRET"
+          echo "Configure auth here."
+
+      - name: Update workspace from main
+        env:
+          FABRIC_TEST_WORKSPACE_ID: ${{ secrets.FABRIC_TEST_WORKSPACE_ID }}
+        run: |
+          # TODO: replace with the actual fabric-cli command to trigger a
+          # git update on the Test workspace pointing at this commit.
+          # Example:
+          #   fab git update --workspace-id "$FABRIC_TEST_WORKSPACE_ID" \
+          #                  --commit-hash "$GITHUB_SHA"
+          echo "Update workspace here. Commit: $GITHUB_SHA"

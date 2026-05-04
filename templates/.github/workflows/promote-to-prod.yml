@@ -1,0 +1,86 @@
+# Promote main → Prod Fabric workspace.
+#
+# Trigger: manual (workflow_dispatch) with confirmation input.
+# What it does: deploys the current main branch to the Prod Fabric workspace
+# via fabric-cli. Use this AFTER changes have been validated in Test.
+#
+# Required GitHub Actions secrets:
+#   FABRIC_TENANT_ID
+#   FABRIC_CLIENT_ID
+#   FABRIC_CLIENT_SECRET
+#   FABRIC_PROD_WORKSPACE_ID
+
+name: Promote main to Prod
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type PROMOTE to confirm Prod deployment'
+        required: true
+        default: ''
+      release_notes:
+        description: 'One-line release note (appears in commit history)'
+        required: true
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate confirmation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check confirmation token
+        run: |
+          if [ "${{ github.event.inputs.confirm }}" != "PROMOTE" ]; then
+            echo "::error::Confirmation token did not match. Type PROMOTE to confirm."
+            exit 1
+          fi
+
+  promote:
+    name: Promote to Prod
+    needs: validate
+    runs-on: ubuntu-latest
+    environment:
+      name: prod
+      # GitHub environment protection rules can require manual approval here.
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install fabric-cli
+        run: |
+          python -m pip install --upgrade pip
+          pip install ms-fabric-cli
+
+      - name: Authenticate
+        env:
+          FABRIC_TENANT_ID: ${{ secrets.FABRIC_TENANT_ID }}
+          FABRIC_CLIENT_ID: ${{ secrets.FABRIC_CLIENT_ID }}
+          FABRIC_CLIENT_SECRET: ${{ secrets.FABRIC_CLIENT_SECRET }}
+        run: |
+          # TODO: replace with the chosen fabric-cli auth pattern.
+          echo "Configure auth here."
+
+      - name: Promote to Prod workspace
+        env:
+          FABRIC_PROD_WORKSPACE_ID: ${{ secrets.FABRIC_PROD_WORKSPACE_ID }}
+          RELEASE_NOTES: ${{ github.event.inputs.release_notes }}
+        run: |
+          # TODO: replace with the actual fabric-cli promotion command.
+          # Common shapes:
+          #   - Deploy items via REST API + fabric-cli
+          #   - Use a Variable Library swap to point Prod connection
+          #     parameters at the right values for this environment
+          echo "Promote to Prod workspace: $FABRIC_PROD_WORKSPACE_ID"
+          echo "Release notes: $RELEASE_NOTES"
+          echo "Commit: $GITHUB_SHA"
